@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 public class player : MonoBehaviour
 {
 
@@ -8,13 +9,11 @@ public class player : MonoBehaviour
     public float jumpForce = 6f;
     private Rigidbody2D rb;
     private Animator myAnimator;
-
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
         myAnimator.SetBool("move", false);
-
     }
     public void OnMove(InputValue value)
     { 
@@ -48,9 +47,21 @@ public class player : MonoBehaviour
             myAnimator.SetBool("move", false);
         }
             transform.Translate(Vector3.right * moveSpeed * moveInput. x * Time.deltaTime);
-            
+        
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.name == "Death")
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+        else
+        {
+             SceneManager.LoadScene("PlayScene_" + collision.name);
         }
     }
-    
+
+
+}
     
 
